@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Forecast</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Weather Forecast</h1>
+
+    <form action="/" method="POST">
+        <input type="text" name="city" placeholder="Enter city name" required>
+        <button type="submit">Get Forecast</button>
+    </form>
+
+    <% if (weather) { %>
+        <h2>Forecast for <%= city %></h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>High Temp (°C)</th>
+                    <th>Low Temp (°C)</th>
+                    <th>Weather Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% weather.list.forEach(function(day) { %>
+                    <tr>
+                        <td><%= new Date(day.dt * 1000).toLocaleDateString() %></td>
+                        <td><%= day.main.temp_max %></td>
+                        <td><%= day.main.temp_min %></td>
+                        <td><%= day.weather[0].description %></td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    <% } %>
+
+    <% if (error) { %>
+        <p class="error"><%= error %></p>
+    <% } %>
+</body>
+</html>
